@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <title>Search Game</title>
+</head>
+<body>
+  <div class="container">
+    <div class = "steam-form2">
+      <div class="topnav">
+        <a href="{{ url_for('welcome_page') }}">Home</a>
+        <a class="active" href="{{ url_for('search_game_page') }}">Search Game</a>
+        <a href="{{ url_for('wishlist_page') }}">Wishlist</a>
+        <a href="{{ url_for('review_page') }}">Review</a>
+        <a href="{{ url_for('sale_page') }}">Sales</a>
+      </div>
+      <h1 class="company">Search for a Game</h1>
+      <form action="{{ url_for('search_game_page') }}" method="POST" id="searchForm">
+
+        <label for="search_type" class="message3">Search by:</label>
+        <select name="search_type" class="search_type1" id="search_type" required>
+          <option value="name">Game Name</option>
+          <option value="tags">Tag</option>
+        </select>
+
+        <div id="name_search" class="search-option">
+          <label for="game_name" class="message3">Game Name:</label>
+          <input type="text" name="game_name" id="game_name" required>
+        </div>
+
+        <div id="tags_search" class="search-option" style="display:none;">
+          <label for="tags" class="message3">Select a Tag:</label>
+          <select name="tags" id="selected_tags" multiple>
+            <!-- Options will be dynamically added here through JavaScript -->
+          </select>
+          <!-- Hidden input field for tags -->
+          <input type="hidden" name="tags" id="tags_input">
+          <br>
+          <label for="tags" class="message3"></label>
+          <div id="selected_tags_list"></div>
+        </div>
+
+        <button type="submit">Search</button>
+      </form>
+
+      <div class="search-results">
+        <!-- Display search results here -->
+        <!-- <h2>Search Results</h2> -->
+        <!-- Placeholder for game_list.html -->
+        <div id="game_list">
+          <!-- Results will be dynamically displayed here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('search_type').addEventListener('change', function () {
+  var nameSearch = document.getElementById('name_search');
+  var tagsSearch = document.getElementById('tags_search');
+  var gameNameInput = document.getElementById('game_name'); // Get the game_name input
+
+  if (this.value === 'name') {
+    nameSearch.style.display = 'block';
+    tagsSearch.style.display = 'none';
+  } else if (this.value === 'tags') {
+    nameSearch.style.display = 'none';
+    tagsSearch.style.display = 'block';
+
+    // Remove the game_name input when searching by tags
+    if (gameNameInput) {
+      gameNameInput.remove();
+    }
+
+    // Fetch tags from the server and populate the dropdown
+    fetchTags();
+  }
+});
+document.getElementById('add_tag_button').addEventListener('click', function () {
+  var selectedTagsList = document.getElementById('selected_tags_list');
+  var selectedTagsSelect = document.getElementById('selected_tags');
+  var selectedTag = selectedTagsSelect.value;
+
+  console.log('Selected Tag:', selectedTag);
+
+  // Check if the tag is not already added
+  if (!selectedTagsList.innerHTML.includes(selectedTag)) {
+    console.log('Adding Tag:', selectedTag);
+    // Add the tag to the selected tags list
+    var newTagSpan = document.createElement('span');
+    newTagSpan.textContent = selectedTag;
+    selectedTagsList.appendChild(newTagSpan);
+
+    // Update the hidden input field with all selected tags
+    updateTagsInput();
+  }
+});
+
+function updateTagsInput() {
+  var selectedTagsList = document.getElementById('selected_tags_list');
+  var selectedTags = Array.from(selectedTagsList.children)
+    .map(span => span.textContent)
+    .filter(tag => tag !== ''); // Filter out empty values
+
+  console.log('Updated Tags:', selectedTags);
+
+  // Update the hidden input field to store the selected tags
+  var tagsInput = document.getElementById('tags_input');
+  if (tagsInput) {
+    tagsInput.value = selectedTags.join(',');
+  }
+}
+
+
+});
+
+  function fetchTags() {
+    // Fetch tags from the server and populate the dropdown
+    fetch('/get-tags')
+      .then(response => response.json())
+      .then(tags => {
+        var tagsSelect = document.getElementById('selected_tags');
+        tagsSelect.innerHTML = '';
+
+        tags.forEach(tag => {
+          var option = document.createElement('option');
+          option.value = tag; // Set the value attribute
+          option.text = tag; // Set the text content
+          tagsSelect.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching tags:', error);
+      });
+  }
+
+  document.getElementById('searchForm').addEventListener('submit', function (event) {
+  // Capture the selected tags when the form is submitted
+  var selectedTagsSelect = document.getElementById('selected_tags');
+  var selectedTags = Array.from(selectedTagsSelect.options)
+    .filter(option => option.selected)
+    .map(option => option.value)
+    .filter(tag => tag !== ''); // Filter out empty values
+
+  // Update the value of the hidden input field with the selected tags
+  var tagsInput = document.getElementById('tags_input');
+  if (tagsInput) {
+    tagsInput.value = selectedTags.join('|'); // Use a different separator, e.g., '|'
+  } else {
+    console.error("Hidden input field 'tags_input' not found.");
+  }
+
+  console.log("Search form submitted!");
+  console.log("Selected Tags:", selectedTags);
+  console.log("Hidden Input Value:", tagsInput ? tagsInput.value : "Not found");
+});
+// Modify the event listener for the dropdown change
+document.getElementById('selected_tags').addEventListener('change', function () {
+  // This part remains the same
+  var selectedTagsSelect = this;
+  var selectedTags = Array.from(selectedTagsSelect.options)
+    .filter(option => option.selected)
+    .map(option => option.value)
+    .filter(tag => tag !== ''); // Filter out empty values
+
+  console.log('Selected Tags:', selectedTags);
+});
+
+
+</script>
+
+</html>

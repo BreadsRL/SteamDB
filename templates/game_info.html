@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <title>Game Information</title>
+</head>
+<body>
+  <div class="container">
+    <div class = "steam-form2">
+      <div class="topnav">
+        <a href="{{ url_for('welcome_page') }}">Home</a>
+        <a class="active" href="{{ url_for('search_game_page') }}">Search Game</a>
+        <a href="{{ url_for('wishlist_page') }}">Wishlist</a>
+        <a href="{{ url_for('review_page') }}">Review</a>
+        <a href="{{ url_for('sale_page') }}">Sales</a>
+      </div>
+      <h1 class="company4">Game Information</h1>
+      
+      {% if game_info %}
+        <h2 class="company">{{ game_info['GameTitle'] }}</h2>
+        <p class="message">Release Date: {{ game_info['ReleaseDate'] }}</p>
+        <p class="message">Publisher: {{ game_info['PublisherName'] }}</p>
+        <h3 class="company">Reviews</h3>
+        {% if reviews %}
+          <ul>
+            {% for review in reviews %}
+              <li>
+                <p class="message">Username: {{ review['Username'] }}</p>
+                <p class="message">Rating: {{ review['Rating'] }}</p>
+                <p class="message">Comment: {{ review['Comment'] }}</p>
+                <p class="message">Review Date: {{ review['ReviewDate'] }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No reviews available for this game.</p>
+        {% endif %}
+      {% else %}
+        <p>No information available for this game.</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

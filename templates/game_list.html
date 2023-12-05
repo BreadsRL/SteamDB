@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    /* Add the following styles to your existing styles.css or include it here */
+    .steam-form2 {
+      max-height: 400px; /* Set a maximum height for the container */
+      overflow-y: auto; /* Enable vertical scrolling if the content overflows */
+    }
+
+    /* Add any other styles you have for the container */
+  </style>
+  <title>Game List</title>
+</head>
+<body>
+  <div class="container">
+    <div class="steam-form2">
+      <div class="topnav">
+        <a href="{{ url_for('welcome_page') }}">Home</a>
+        <a class="active" href="{{ url_for('search_game_page') }}">Search Game</a>
+        <a href="{{ url_for('wishlist_page') }}">Wishlist</a>
+        <a href="{{ url_for('review_page') }}">Review</a>
+        <a href="{{ url_for('sale_page') }}">Sales</a>
+      </div>
+      <h1 class="company3">Search Results</h1>
+
+      {% if game_list %}
+        <ul>
+          {% for game in game_list %}
+            <li>
+              <h2 class="company3"><a href="{{ url_for('game_info_page', game_id=game['GameID']) }}">{{ game['GameTitle'] }}</a></h2>
+              <p class="message">Release Date: {{ game['ReleaseDate'] }}</p>
+              <p class="message">Publisher: {{ game['PublisherName'] }}</p>
+              <p class="message">Tags: {% for tag in game['Tags'] %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No results found.</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

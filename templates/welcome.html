@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <title>Welcome</title>
+</head>
+<body>
+  <div class="container">
+    <div class = "steam-form2">
+      <div class="topnav">
+        <a class="active" href="{{ url_for('welcome_page') }}">Home</a>
+        <a href="{{ url_for('search_game_page') }}">Search Game</a>
+        <a href="{{ url_for('wishlist_page') }}">Wishlist</a>
+        <a href="{{ url_for('review_page') }}">Review</a>
+        <a href="{{ url_for('sale_page') }}">Sales</a>
+      </div>    
+      <h1 class="company2">Hello, {{ session['username'] }}!</h1>
+      <div>
+        <p class="message2">Welcome to Steam Database!</p>
+        <p class="message2">What would you like to do today?</p>
+      </div>
+      <div class="centerbox">
+        <a href="{{ url_for('logout') }}">
+          <button type="submit">Logout</button></a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+  <!-- <div class="container">
+    <div class="steam-form">
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <div class="flash-messages">
+                  {% for message in messages %}
+                      <p class="flash-message">{{ message }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      {% endwith %}
+      <h1 class="company">Login</h1>
+      <form name="login-form" action="/login" method="POST">
+        <input type="email" name="email" placeholder="Email" id="email" required>
+        <input type="password" name="password" placeholder="Password" id="password" required>
+        <button type="submit">Sign in</button>
+      </form>        
+      {% if message %}
+          <p class="error-message">{{ message }}</p>
+      {% endif %}
+      <p class="message">Not registered? <a href="{{ url_for('show_registration_page') }}">Create an account</a></p>
+      <p class="message">Want to update your Email?<a href="{{ url_for('update_email_page') }}">Update your Email</a></p>
+      <p class="message">Want to update your Username?<a href="{{ url_for('update_username') }}">Update your Username</a></p>
+      <p class="message">Want to update your Password?<a href="{{ url_for('update_password') }}">Update your Password</a></p>
+    </div>
+  </div>
+</body>
+</html> -->
+

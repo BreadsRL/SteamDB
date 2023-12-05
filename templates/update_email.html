@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="steam-form">
+      <h1 class="company">Update Email</h1>
+      <form name="update-email-form" action="/update_email" method="POST">
+        <!-- Add fields to update user information -->
+        <input type="email" name="new_email" placeholder="New Email" id="new_email" required>
+        <input type="text" name="username" placeholder="Username" id="username" required>
+        <input type="password" name="password" placeholder="Password" id="password" required>
+    
+        <button type="submit">Update Email</button>
+    </form>
+    
+      </form>        
+    </div>
+  </div>
+</body>
+</html>

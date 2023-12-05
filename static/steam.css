@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    max-height: 400px; /* Set a maximum height for the wishlist */
+    overflow-y: auto; /* Add a vertical scrollbar when content exceeds the height */
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  /* ... add other styles as needed ... */
+  

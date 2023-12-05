@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    /* Add the following styles to your existing styles.css or include it here */
+    .steam-form2 {
+      max-height: 600px; /* Set a maximum height for the entire container */
+      overflow-y: auto; /* Enable vertical scrolling if the content overflows */
+    }
+  </style>
+  <title>Review</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="steam-form2">
+      <div class="topnav">
+        <a href="{{ url_for('welcome_page') }}">Home</a>
+        <a href="{{ url_for('search_game_page') }}">Search Game</a>
+        <a href="{{ url_for('wishlist_page') }}">Wishlist</a>
+        <a class="active" href="{{ url_for('review_page') }}">Review</a>
+        <a href="{{ url_for('sale_page') }}">Sales</a>
+      </div>
+
+      <h1 class="company2">Game Review</h1>
+
+      <p class="message">Write your review here:</p>
+      <form action="{{ url_for('submit_review') }}" method="POST">
+        <label for="game_id" class="company3">Select a Game:</label>
+        <select name="game_id" id="game_id" required>
+          {% for game in available_games %}
+            <option value="{{ game.GameID }}">{{ game.GameTitle }}</option>
+          {% endfor %}
+        </select>
+
+        <br>
+
+        <label for="rating" class="company3">Rating:</label>
+        <select name="rating" id="rating" required>
+          <option value="0">Thumb's Down</option>
+          <option value="1">Thumb's Up</option>
+        </select>
+
+        <br>
+
+        <label for="comment" class="company3">Comment:</label>
+        <textarea name="comment" rows="4" cols="50" required></textarea>
+
+        <br>
+
+        <button type="submit">Submit Review</button>
+      </form>
+      <h2 class="company">Your Reviews</h2>
+      <ul>
+        {% for review in user_reviews %}
+          <li>
+            {{ review.GameTitle }} - Rating: {{ review.Rating }}<br>
+            {{ review.Comment }}<br>
+            Posted on: {{ review.ReviewDate }}<br>
+            <a href="{{ url_for('edit_review', review_id=review.ReviewID) }}">Edit</a> |
+            <a href="{{ url_for('delete_review', review_id=review.ReviewID) }}">Delete</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    /* Add the following styles to your existing styles.css or include it here */
+    .table-container {
+      max-height: 400px; /* Set a maximum height for the table container */
+      overflow-y: auto; /* Enable vertical scrolling if the content overflows */
+    }
+
+    th, td {
+      padding: 15px;
+    }
+
+  </style>
+  <title>Sale</title>
+</head>
+<body>
+  <div class="container">
+    <div class="steam-form2">
+      <div class="topnav">
+        <a href="{{ url_for('welcome_page') }}">Home</a>
+        <a href="{{ url_for('search_game_page') }}">Search Game</a>
+        <a href="{{ url_for('wishlist_page') }}">Wishlist</a>
+        <a href="{{ url_for('review_page') }}">Review</a>
+        <a class="active" href="{{ url_for('sale_page') }}">Sales</a>
+      </div>
+      <h1 class="company2">Hello, {{ session['username'] }}!</h1>
+      <div class="table-container">
+        <p class="message2">Games on Sale:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Game</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Discount Percent</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sale in sales_data %}
+              <tr>
+                <td>{{ sale.GameTitle }}</td>
+                <td>{{ sale.Start_Date }}</td>
+                <td>{{ sale.End_Date }}</td>
+                <td>{{ sale.DiscountPercent }}%</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="centerbox">
+        <a href="{{ url_for('logout') }}">
+          <button type="submit">Logout</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

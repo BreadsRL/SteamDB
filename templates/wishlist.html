@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='steam.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <title>Wishlist</title>
+</head>
+<body>
+  <div class="container">
+    <div class = "steam-form2">
+      <div class="topnav">
+        <a href="{{ url_for('welcome_page') }}">Home</a>
+        <a href="{{ url_for('search_game_page') }}">Search Game</a>
+        <a class="active" href="{{ url_for('wishlist_page') }}">Wishlist</a>
+        <a href="{{ url_for('review_page') }}">Review</a>
+        <a href="{{ url_for('sale_page') }}">Sales</a>
+      </div>
+
+      <h1 class="company2">Your Wishlist</h1>
+      
+      {% if wishlist_items %}
+      <ul>
+        {% for item in wishlist_items %}
+          <li>{{ item.GameTitle }} 
+            <form action="{{ url_for('wishlist_page') }}" method="POST" style="display: inline;">
+              <input type="hidden" name="delete_game" value="{{ item.GameID }}">
+              <button type="submit">Remove</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="message2">Your wishlist is empty.</p>
+    {% endif %}
+    <!-- Debugging loop to print out the structure of wishlist_items -->
+      
+      <hr>
+      
+      <h2 class="company2">Add a Game to Your Wishlist</h2>
+      <form action="{{ url_for('wishlist_page') }}" method="POST">
+        <label for="add_game" class="message2">Select a Game:</label>
+        <select name="add_game" id="add_game" required>
+          {% for game in available_games %}
+            <option value="{{ game.GameID }}">{{ game.GameTitle }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Add to Wishlist</button>
+      </form>    
+    </div>
+  </div>
+</body>
+</html>
+
+
+<!-- Okay, that works, now when I login, I want to click on the wishlist, which works.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <title>Wishlist</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Your Wishlist</h1>
+    
+    {% if wishlist_items %}
+      <ul>
+        {% for item in wishlist_items %}
+          <li>{{ item.game_title }} - {{ item.publisher_name }} 
+            <form action="{{ url_for('wishlist_page') }}" method="POST" style="display: inline;">
+              <input type="hidden" name="delete_game" value="{{ item.game_id }}">
+              <button type="submit">Remove from Wishlist</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Your wishlist is empty.</p>
+    {% endif %}
+    
+    <hr>
+    
+    <h2>Add a Game to Your Wishlist</h2>
+    <form action="{{ url_for('wishlist_page') }}" method="POST">
+      <label for="add_game">Select a Game:</label>
+      <select name="add_game" id="add_game" required>
+        {% for game in available_games %}
+          <option value="{{ game.game_id }}">{{ game.game_title }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Add to Wishlist</button>
+    </form>
+
+    <p><a href="{{ url_for('welcome_page') }}">Back to Welcome</a></p>
+  </div>
+</body>
+</html>
+
+
+
+I want to be able to see my games that I have wishlisted (which can be accessed in the database I'm reading)
+The Wishlist table has 3 columns
+WishlistID which is the primary key
+Username is a foreign key coming from the User table (the one we used to login)
+GameID is a foreign key coming from the Game table
+
+
+I want to see the list of games that the user (logged in), that they have wishlisted.
+Moreover, I want them to add games they don't have already have.
+I also want them to delete games they don't want in their wishlist anymore.
+
+Of course, when the user does this, it's going to update the wishlist table that's belongingt to their informatoin
+
+
+-->
